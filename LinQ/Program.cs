@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
+// Sección 1: Declaraciones iniciales y LinQ básico
 #region Introduccion
-using LinQ;
+using LinQ;  // Incluye la librería LinQ, que permite realizar consultas a colecciones.
 
 string[] palabras; 
 palabras = new string[] {"gato", 
@@ -13,10 +15,12 @@ palabras = new string[] {"gato",
     "Cocodrilo",
     "Serpiente"
 };
+// Inicializa un array de palabras.
 Console.WriteLine("Mas de 5 palabras");
 
 List<string> resultado = new List<string>();
 
+// Bucle que filtra palabras con más de 5 caracteres.
 foreach (string r in palabras)
 {
     if (r.Length > 5)
@@ -29,8 +33,10 @@ foreach (string rList in resultado)
     Console.WriteLine(rList);
 #endregion 
 
+// Sección 2: Uso de LinQ para realizar consultas
 #region Linq
 Console.WriteLine("----------------------------");
+// Consulta LinQ para seleccionar palabras con más de 8 caracteres.
 IEnumerable<string> list = from rList in palabras where rList.Length > 8 select rList;
 foreach (var listado in list)
     Console.WriteLine(listado);
@@ -38,11 +44,13 @@ foreach (var listado in list)
 
 Console.WriteLine("---------------------------------");
 
+// Sección 3: Definición de listas de modelos de Casa y Habitante
 #region ListaModelos
 List<Casa> ListaCasa = new List<Casa>();
 List<Habitante> ListaHabitantes = new List<Habitante>();
 #endregion
 
+// Sección 4: Agregando objetos de tipo Casa a la lista
 #region ListaCasa
 ListaCasa.Add(new Casa
 {
@@ -68,6 +76,7 @@ ListaCasa.Add(new Casa
 });
 #endregion
 
+// Sección 5: Agregando objetos de tipo Habitante a la lista
 #region ListaHabitante
 ListaHabitantes.Add(new Habitante
 {
@@ -125,9 +134,12 @@ ListaHabitantes.Add(new Habitante
     edad = 36,
     idCasa = 1
 });
+// Continúa agregando habitantes.
 #endregion
 
+// Sección 6: Consultas LinQ avanzadas
 #region SentenciasLinQ
+// Filtra habitantes con edad mayor a 40 años.
 IEnumerable<Habitante> ListaEdad = from ObjetoProvicional
                                    in ListaHabitantes
                                    where ObjetoProvicional.edad > 40
@@ -137,7 +149,7 @@ foreach (Habitante objetoProcicional2 in ListaEdad)
 {
     Console.WriteLine(objetoProcicional2.datosHabitante());
 }
-
+// Filtra habitantes que viven en la ciudad "Gothan City" utilizando join entre las listas de Habitantes y Casas.
 IEnumerable<Habitante> listaCasaGothan = from objetoTemporalHabitante in ListaHabitantes
                                          join objetoTemporalCasa in ListaCasa
                                          on objetoTemporalHabitante.IdHabitante equals objetoTemporalCasa.Id
@@ -151,6 +163,7 @@ foreach (Habitante h in listaCasaGothan)
 
 #endregion
 
+// Sección 7: Métodos First, FirstOrDefault
 #region FirsthAndFirsthOrDefault
 /* Console.WriteLine("----------------------------------------------------------------------------------------------");
 var primeraCasa = ListaCasas.First(); //esto no es linQ es  una fucnin de los Ienumarable
@@ -177,10 +190,13 @@ Console.WriteLine("existe !Si existe!");
 */
 #endregion
 
+// Sección 8: Métodos Last y LastOrDefault
 #region Last
 Casa ultimaCasa = ListaCasa.Last(temp => temp.Id>1);
 Console.WriteLine(ultimaCasa.dameDatosCasa());
 Console.WriteLine("______________________________________________");
+
+// Usa LastOrDefault para filtrar habitantes mayores de 60 años, evitando excepciones.
 var h1 = (from objHabitante in ListaHabitantes where objHabitante.edad>60 select objHabitante)
     .LastOrDefault();
 if (h1 == null)
@@ -192,7 +208,9 @@ Console.WriteLine(h1.datosHabitante());
 
 #endregion
 
+// Sección 9: Métodos ElementAt y ElementAtOrDefault
 #region ElementAT
+// Usa ElementAt para obtener el elemento en un índice específico.
 var terceraCasa = ListaCasa.ElementAt(2);
 Console.WriteLine($"La tercera casa es {terceraCasa.dameDatosCasa()}");
 
@@ -203,7 +221,11 @@ var segundoHabitante = (from objetoTem in ListaHabitantes select objetoTem).Elem
 Console.WriteLine($" Segundo habitante es : {segundoHabitante.datosHabitante()}");
 #endregion
 
+// Sección 10: Métodos Single y SingleOrDefault
 #region single
+
+// Usa Single para obtener un único resultado que cumple una condición.
+// Usa SingleOrDefault para evitar excepciones.
 try
 {
     var habitantes = ListaHabitantes.Single(variableTem => variableTem.edad > 40 && variableTem.edad < 70);
@@ -219,11 +241,15 @@ catch (Exception)
 
 #endregion
 
+// Sección 11: Filtrado por tipo con OfType
 #region typeOf
+
+// Filtra una lista de empleados según su tipo (profesores, bomberos, etc.) usando OfType.
 var listaEmpleados = new List<Empleado>() {
     new Bombero(){ nombre = "Juanito Pascal" },
     new Profesor(){ nombre = "Raul Blanco"}
 };
+
 
 var profesor = listaEmpleados.OfType<Profesor>();
 Console.WriteLine(profesor.Single().nombre);
